@@ -1,0 +1,133 @@
+services:
+  zabbix-mysql:
+    image: mysql:8.0
+    container_name: zabbix-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - zabbix-mysql-data:/var/lib/mysql
+    networks:
+      - zabbix-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    command:
+      - mysqld
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_bin
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: zabbix-phpmyadmin
+    environment:
+      PMA_HOST: zabbix-mysql
+      PMA_PORT: 3306
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "${PHPMYADMIN_PORT:-8082}:80"
+    networks:
+      - zabbix-network
+    depends_on:
+      zabbix-mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:alpine-latest
+    container_name: zabbix-server
+    environment:
+      DB_SERVER_HOST: zabbix-mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      ZBX_CACHESIZE: 128M
+      ZBX_HISTORYCACHESIZE: 64M
+      ZBX_HISTORYINDEXCACHESIZE: 16M
+      ZBX_TRENDCACHESIZE: 16M
+      ZBX_VALUECACHESIZE: 32M
+      ZBX_JAVAGATEWAY_ENABLE: false
+      ZBX_VMWARECACHESIZE: 8M
+    volumes:
+      - zabbix-server-data:/var/lib/zabbix
+    networks:
+      - zabbix-network
+    ports:
+      - "${ZABBIX_SERVER_PORT}:10051"
+    depends_on:
+      zabbix-mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+  zabbix-web:
+    image: zabbix/zabbix-web-apache-mysql:alpine-latest
+    container_name: zabbix-web
+    environment:
+      ZBX_SERVER_HOST: zabbix-server
+      ZBX_SERVER_PORT: 10051
+      DB_SERVER_HOST: zabbix-mysql
+      DB_SERVER_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PHP_TZ: ${TZ}
+      ZBX_MAXEXECUTIONTIME: 600
+      ZBX_MEMORYLIMIT: 256M
+      ZBX_POSTMAXSIZE: 32M
+      ZBX_UPLOADMAXFILESIZE: 8M
+      ZBX_MAXINPUTTIME: 600
+    volumes:
+      - zabbix-web-data:/etc/ssl/apache2
+    networks:
+      - zabbix-network
+    ports:
+      - "${WEB_PORT}:8080"
+    depends_on:
+      zabbix-mysql:
+        condition: service_healthy
+      zabbix-server:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+      interval: 30s
+    restart: unless-stopped
+
+  zabbix-agent:
+    image: zabbix/zabbix-agent:alpine-latest
+    container_name: zabbix-agent
+    environment:
+      ZBX_HOSTNAME: "Zabbix server"
+      ZBX_SERVER_HOST: zabbix-server
+      ZBX_SERVER_PORT: 10051
+      ZBX_PASSIVE_ALLOW: true
+      ZBX_ACTIVE_ALLOW: true
+    networks:
+      - zabbix-network
+    ports:
+      - "${ZABBIX_AGENT_PORT}:10050"
+    depends_on:
+      zabbix-server:
+        condition: service_started
+    restart: unless-stopped
+    privileged: true
+    pid: "host"
+
+volumes:
+  zabbix-mysql-data:
+  zabbix-server-data:
+  zabbix-web-data:
+
+networks:
+  zabbix-network:
+    driver: bridge

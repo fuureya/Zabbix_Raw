@@ -1,0 +1,182 @@
+logs zabbix-server
+
+ 1:20251003:100647.732 Starting Zabbix Server. Zabbix 7.4.3 (revision 9c308d6).
+     1:20251003:100647.732 ****** Enabled features ******
+     1:20251003:100647.732 SNMP monitoring:           YES
+     1:20251003:100647.732 IPMI monitoring:           YES
+     1:20251003:100647.732 Web monitoring:            YES
+     1:20251003:100647.732 VMware monitoring:         YES
+     1:20251003:100647.732 SMTP authentication:       YES
+     1:20251003:100647.732 ODBC:                      YES
+     1:20251003:100647.732 SSH support:               YES
+     1:20251003:100647.732 IPv6 support:              YES
+     1:20251003:100647.732 TLS support:               YES
+     1:20251003:100647.732 ******************************
+     1:20251003:100647.732 using configuration file: /etc/zabbix/zabbix_server.conf
+     1:20251003:100647.820 current database version (mandatory/optional): 07040000/07040000
+     1:20251003:100647.820 required mandatory version: 07040000
+    31:20251003:100647.827 starting HA manager
+    31:20251003:100647.899 HA manager started in active mode
+     1:20251003:100647.902 server #0 started [main process]
+    32:20251003:100647.903 server #1 started [service manager #1]
+    33:20251003:100647.904 server #2 started [configuration syncer #1]
+    34:20251003:100648.364 server #3 started [alert manager #1]
+    35:20251003:100648.364 server #4 started [alerter #1]
+    36:20251003:100648.365 server #5 started [alerter #2]
+    37:20251003:100648.366 server #6 started [alerter #3]
+    38:20251003:100648.367 server #7 started [preprocessing manager #1]
+    40:20251003:100648.369 server #9 started [lld worker #1]
+    39:20251003:100648.370 server #8 started [lld manager #1]
+    43:20251003:100648.371 server #12 started [timer #1]
+    41:20251003:100648.371 server #10 started [lld worker #2]
+    44:20251003:100648.372 server #13 started [http poller #1]
+    42:20251003:100648.374 server #11 started [housekeeper #1]
+    45:20251003:100648.374 server #14 started [browser poller #1]
+    46:20251003:100648.374 server #15 started [discovery manager #1]
+    47:20251003:100648.375 server #16 started [history syncer #1]
+    49:20251003:100648.376 server #18 started [history syncer #3]
+    50:20251003:100648.376 server #19 started [history syncer #4]
+    51:20251003:100648.377 server #20 started [escalator #1]
+    52:20251003:100648.377 server #21 started [proxy poller #1]
+    48:20251003:100648.377 server #17 started [history syncer #2]
+    55:20251003:100648.379 server #24 started [poller #1]
+    56:20251003:100648.379 server #25 started [poller #2]
+    54:20251003:100648.379 server #23 started [task manager #1]
+    57:20251003:100648.380 server #26 started [poller #3]
+    58:20251003:100648.380 server #27 started [poller #4]
+    53:20251003:100648.380 server #22 started [self-monitoring #1]
+    59:20251003:100648.381 server #28 started [poller #5]
+    60:20251003:100648.382 server #29 started [unreachable poller #1]
+    61:20251003:100648.383 server #30 started [trapper #1]
+    62:20251003:100648.383 server #31 started [trapper #2]
+    63:20251003:100648.384 server #32 started [trapper #3]
+    46:20251003:100648.385 for a discovery process with 5 workers, the user limit of 1024 file descriptors is insufficient. The maximum number of concurrent checks per worker has been reduced to 122
+    64:20251003:100648.385 server #33 started [trapper #4]
+    65:20251003:100648.386 server #34 started [trapper #5]
+    66:20251003:100648.387 server #35 started [icmp pinger #1]
+    67:20251003:100648.388 server #36 started [alert syncer #1]
+    68:20251003:100648.388 server #37 started [history poller #1]
+    70:20251003:100648.389 server #39 started [history poller #3]
+    69:20251003:100648.389 server #38 started [history poller #2]
+    71:20251003:100648.391 server #40 started [history poller #4]
+    73:20251003:100648.391 server #42 started [availability manager #1]
+    72:20251003:100648.391 server #41 started [history poller #5]
+    74:20251003:100648.393 server #43 started [trigger housekeeper #1]
+    75:20251003:100648.394 server #44 started [odbc poller #1]
+    76:20251003:100648.394 server #45 started [http agent poller #1]
+    79:20251003:100648.396 server #48 started [configuration syncer worker #1]
+    77:20251003:100648.396 server #46 started [agent poller #1]
+    82:20251003:100648.397 server #50 started [proxy group manager #1]
+    77:20251003:100648.397 thread started
+    78:20251003:100648.397 server #47 started [snmp poller #1]
+    76:20251003:100648.398 thread started
+    80:20251003:100648.398 server #49 started [internal poller #1]
+    78:20251003:100648.398 thread started
+    38:20251003:100648.412 [1] thread started [preprocessing worker #1]
+    38:20251003:100648.412 [2] thread started [preprocessing worker #2]
+    38:20251003:100648.412 [3] thread started [preprocessing worker #3]
+    38:20251003:100648.412 [4] thread started [preprocessing worker #4]
+    38:20251003:100648.412 [5] thread started [preprocessing worker #5]
+    38:20251003:100648.412 [6] thread started [preprocessing worker #6]
+    38:20251003:100648.412 [7] thread started [preprocessing worker #7]
+    38:20251003:100648.413 [8] thread started [preprocessing worker #8]
+    38:20251003:100648.413 [9] thread started [preprocessing worker #9]
+    38:20251003:100648.413 [11] thread started [preprocessing worker #11]
+    38:20251003:100648.413 [10] thread started [preprocessing worker #10]
+    38:20251003:100648.413 [12] thread started [preprocessing worker #12]
+    38:20251003:100648.413 [13] thread started [preprocessing worker #13]
+    38:20251003:100648.413 [14] thread started [preprocessing worker #14]
+    38:20251003:100648.413 [15] thread started [preprocessing worker #15]
+    38:20251003:100648.413 [16] thread started [preprocessing worker #16]
+    46:20251003:100648.425 thread started [discovery worker #1]
+    46:20251003:100648.425 thread started [discovery worker #2]
+    46:20251003:100648.425 thread started [discovery worker #3]
+    46:20251003:100648.425 thread started [discovery worker #4]
+    46:20251003:100648.425 thread started [discovery worker #5]
+
+    log zabbix-Web
+    shangtel@shangtel:~/Projects/zabbix$ docker logs -f zabbix-web
+** Deploying Zabbix web-interface (Apache) with MySQL database
+** Using MYSQL_USER variable from ENV
+** Using MYSQL_PASSWORD variable from ENV
+********************
+* DB_SERVER_HOST: zabbix-mysql
+* DB_SERVER_PORT: 3306
+* DB_SERVER_DBNAME: zabbix
+********************
+** Preparing PHP configuration
+** Adding Zabbix virtual host (HTTP)
+**** Impossible to enable SSL support for Apache2. Certificates are missed.
+########################################################
+** Executing supervisord
+/usr/lib/python3.12/site-packages/supervisor/options.py:13: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  import pkg_resources
+2025-10-03 10:06:49,506 INFO Included extra file "/etc/supervisor/conf.d/supervisord_zabbix.conf" during parsing
+2025-10-03 10:06:49,506 INFO Included extra file "/etc/supervisor/conf.d/supervisord_zabbix.conf" during parsing
+2025-10-03 10:06:49,511 INFO RPC interface 'supervisor' initialized
+2025-10-03 10:06:49,511 INFO RPC interface 'supervisor' initialized
+2025-10-03 10:06:49,511 INFO supervisord started with pid 1
+2025-10-03 10:06:49,511 INFO supervisord started with pid 1
+2025-10-03 10:06:50,517 INFO spawned: 'httpd' with pid 18
+2025-10-03 10:06:50,517 INFO spawned: 'httpd' with pid 18
+2025-10-03 10:06:50,523 INFO spawned: 'php-fpm84' with pid 19
+2025-10-03 10:06:50,523 INFO spawned: 'php-fpm84' with pid 19
+[03-Oct-2025 10:06:50] NOTICE: fpm is running, pid 19
+[03-Oct-2025 10:06:50] NOTICE: ready to handle connections
+[Fri Oct 03 10:06:50.571909 2025] [mpm_event:notice] [pid 18:tid 18] AH00489: Apache/2.4.65 (Unix) configured -- resuming normal operations
+[Fri Oct 03 10:06:50.572028 2025] [core:notice] [pid 18:tid 18] AH00094: Command line: '/usr/sbin/httpd -D FOREGROUND'
+2025-10-03 10:06:52,575 INFO success: httpd entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+2025-10-03 10:06:52,575 INFO success: httpd entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+2025-10-03 10:06:52,575 INFO success: php-fpm84 entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+2025-10-03 10:06:52,575 INFO success: php-fpm84 entered RUNNING state, process has stayed up for > than 2 seconds (startsecs)
+
+zabbix mysql
+shangtel@shangtel:~/Projects/zabbix$ docker logs -f zabbix-mysql
+2025-10-03 10:06:14+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.43-1.el9 started.
+2025-10-03 10:06:14+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2025-10-03 10:06:14+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.43-1.el9 started.
+'/var/lib/mysql/mysql.sock' -> '/var/run/mysqld/mysqld.sock'
+2025-10-03T10:06:15.425124Z 0 [Warning] [MY-011068] [Server] The syntax '--skip-host-cache' is deprecated and will be removed in a future release. Please use SET GLOBAL host_cache_size=0 instead.
+2025-10-03T10:06:15.427849Z 0 [System] [MY-010116] [Server] /usr/sbin/mysqld (mysqld 8.0.43) starting as process 1
+2025-10-03T10:06:15.437017Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-10-03T10:06:24.354938Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-10-03T10:06:26.503328Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2025-10-03T10:06:26.503451Z 0 [System] [MY-013602] [Server] Channel mysql_main configured to support TLS. Encrypted connections are now supported for this channel.
+2025-10-03T10:06:26.568226Z 0 [Warning] [MY-011810] [Server] Insecure configuration for --pid-file: Location '/var/run/mysqld' in the path is accessible to all OS users. Consider choosing a different directory.
+2025-10-03T10:06:26.600206Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Bind-address: '::' port: 33060, socket: /var/run/mysqld/mysqlx.sock
+2025-10-03T10:06:26.600295Z 0 [System] [MY-010931] [Server] /usr/sbin/mysqld: ready for connections. Version: '8.0.43'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server - GPL.
+
+zabbix agent
+
+shangtel@shangtel:~/Projects/zabbix$ docker logs -f zabbix-agent
+** Preparing Zabbix agent
+** Using 'zabbix-server' servers for passive checks
+** Using 'zabbix-server' servers for active checks
+Starting Zabbix Agent [Zabbix server]. Zabbix 7.4.3 (revision 9c308d6).
+Press Ctrl+C to exit.
+
+ 53371:20251003:100648.359 Starting Zabbix Agent [Zabbix server]. Zabbix 7.4.3 (revision 9c308d6).
+ 53371:20251003:100648.359 **** Enabled features ****
+ 53371:20251003:100648.359 IPv6 support:          YES
+ 53371:20251003:100648.359 TLS support:           YES
+ 53371:20251003:100648.359 **************************
+ 53371:20251003:100648.359 using configuration file: /etc/zabbix/zabbix_agentd.conf
+ 53371:20251003:100648.364 agent #0 started [main process]
+ 53480:20251003:100648.364 agent #1 started [collector]
+ 53482:20251003:100648.365 agent #2 started [listener #1]
+ 53483:20251003:100648.365 agent #3 started [listener #2]
+ 53485:20251003:100648.366 agent #4 started [listener #3]
+ 53486:20251003:100648.367 agent #5 started [listener #4]
+ 53488:20251003:100648.367 agent #6 started [listener #5]
+ 53491:20251003:100648.368 agent #8 started [listener #7]
+ 53489:20251003:100648.369 agent #7 started [listener #6]
+ 53494:20251003:100648.370 agent #9 started [listener #8]
+ 53495:20251003:100648.370 agent #10 started [listener #9]
+ 53497:20251003:100648.370 agent #11 started [listener #10]
+ 53498:20251003:100648.371 agent #12 started [active checks #1]
+
+ ketika di akses ke port 8080 dari browser
+ Service Unavailable
+
+The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.
+Apache/2.4.65 (Unix) Server at 192.168.250.5 Port 8081
