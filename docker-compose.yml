@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   zabbix-mysql:
     image: mysql:8.0
@@ -12,7 +10,6 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - zabbix-mysql-data:/var/lib/mysql
-      - ./zabbix.sql:/docker-entrypoint-initdb.d/zabbix.sql:ro
     networks:
       - zabbix-network
     ports:
@@ -47,36 +44,45 @@ services:
         condition: service_healthy
 
   zabbix-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: zabbix/zabbix-server-mysql:7.0.8-ubuntu
     container_name: zabbix-server
     restart: unless-stopped
     environment:
-      DB_HOST: zabbix-mysql
-      DB_NAME: ${MYSQL_DATABASE}
-      DB_USER: ${MYSQL_USER}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
-      TZ: ${TZ}
+      DB_SERVER_HOST: zabbix-mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      ZBX_CACHESIZE: 512M
     volumes:
       - zabbix-server-data:/var/lib/zabbix
-      - zabbix-logs:/var/log/zabbix
-      - ./zabbix.sql:/docker-entrypoint-initdb.d/zabbix.sql:ro
+      - zabbix-logs:/usr/lib/zabbix
     networks:
       - zabbix-network
     ports:
-      - "${WEB_PORT:-8080}:80"
       - "${ZABBIX_SERVER_PORT:-10051}:10051"
-      - "${ZABBIX_AGENT_PORT:-10050}:10050"
     depends_on:
       zabbix-mysql:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/"]
-      timeout: 10s
-      retries: 5
-      start_period: 60s
-      interval: 30s
+
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-mysql:7.0.8-ubuntu
+    container_name: zabbix-web
+    restart: unless-stopped
+    environment:
+      ZBX_SERVER_HOST: zabbix-server
+      DB_SERVER_HOST: zabbix-mysql
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - zabbix-network
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    depends_on:
+      - zabbix-server
+      - zabbix-mysql
 
 volumes:
   zabbix-mysql-data:
@@ -91,4 +97,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.25.0.0/16
