@@ -1,7 +1,7 @@
 services:
   zabbix-mysql:
     image: mysql:8.0
-    container_name: zabbix-mysql
+    container_name: zabbix-mysql-server
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -9,9 +9,9 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - zabbix-mysql-data:/var/lib/mysql
+      - zabbix-mysql-data-server:/var/lib/mysql
     networks:
-      - zabbix-network
+      - zabbix-network-server
     ports:
       - "3306:3306"
     command:
@@ -27,10 +27,10 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: zabbix-phpmyadmin
+    container_name: zabbix-phpmyadmin-server
     restart: unless-stopped
     environment:
-      PMA_HOST: zabbix-mysql
+      PMA_HOST: zabbix-mysql-server
       PMA_PORT: 3306
       PMA_USER: ${MYSQL_USER}
       PMA_PASSWORD: ${MYSQL_PASSWORD}
@@ -38,63 +38,67 @@ services:
     ports:
       - "${PHPMYADMIN_PORT:-8082}:80"
     networks:
-      - zabbix-network
+      - zabbix-network-server
     depends_on:
-      zabbix-mysql:
+      zabbix-mysql-server:
         condition: service_healthy
 
   zabbix-server:
     image: zabbix/zabbix-server-mysql:7.4-ubuntu-latest
-    container_name: zabbix-server
+    container_name: zabbix-server-server
     restart: unless-stopped
     environment:
-      DB_SERVER_HOST: zabbix-mysql
+      DB_SERVER_HOST: zabbix-mysql-server
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       ZBX_CACHESIZE: 512M
+      # Allow unsupported database versions during migration
+      ZBX_ALLOWUNSUPPORTEDDBVERSIONS: 1
     volumes:
-      - zabbix-server-data:/var/lib/zabbix
-      - zabbix-logs:/usr/lib/zabbix
+      - zabbix-server-data-server:/var/lib/zabbix
+      - zabbix-logs-server:/usr/lib/zabbix
     networks:
-      - zabbix-network
+      - zabbix-network-server
     ports:
       - "${ZABBIX_SERVER_PORT:-10051}:10051"
     depends_on:
-      zabbix-mysql:
+      zabbix-mysql-server:
         condition: service_healthy
 
   zabbix-web:
     image: zabbix/zabbix-web-nginx-mysql:7.4-ubuntu-latest
-    container_name: zabbix-web
+    container_name: zabbix-web-server
     restart: unless-stopped
     environment:
-      ZBX_SERVER_HOST: zabbix-server
-      DB_SERVER_HOST: zabbix-mysql
+      ZBX_SERVER_HOST: zabbix-server-server
+      DB_SERVER_HOST: zabbix-mysql-server
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      # Allow unsupported database versions during migration
+      ZBX_ALLOWUNSUPPORTEDDBVERSIONS: 1
     networks:
-      - zabbix-network
+      - zabbix-network-server
     ports:
       - "${WEB_PORT:-8080}:8080"
     depends_on:
-      - zabbix-server
-      - zabbix-mysql
+      - zabbix-server-server
+      - zabbix-mysql-server
 
 volumes:
-  zabbix-mysql-data:
+  zabbix-mysql-data-server:
     driver: local
-  zabbix-server-data:
+  zabbix-server-data-server:
     driver: local
-  zabbix-logs:
+  zabbix-logs-server:
     driver: local
 
 networks:
-  zabbix-network:
+  zabbix-network-server:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.25.0.0/16
+        - subnet: 172.26.0.0/16
